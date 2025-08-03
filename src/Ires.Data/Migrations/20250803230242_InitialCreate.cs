@@ -32,7 +32,7 @@ namespace Ires.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Text = table.Column<string>(type: "text", nullable: false),
+                    Content = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
                     PersonId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>

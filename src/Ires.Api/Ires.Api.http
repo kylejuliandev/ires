@@ -2,15 +2,16 @@
 
 ### Create Person
 
-POST {{Ires.Api_HostAddress}}/api/v1.0/person
+POST {{Ires.Api_HostAddress}}/api/v1.0/people
 Content-Type: application/json
 Accept: application/json
 
 {
-  "first_name": "John",
-  "last_name": "Doe",
+  "given_name": "John",
+  "family_name": "Doe",
   "gender": "Male",
-  "date_of_birth": "1998-09-26"
+  "date_of_birth": "1998-09-26",
+  "notes": "Blah blah blah."
 }
 
 ###

@@ -31,6 +31,7 @@ public class IresDbContext : DbContext
         modelBuilder.Entity<PersonNote>(e =>
         {
             e.HasKey(n => n.Id);
+            e.Property(n => n.Content).IsRequired().HasMaxLength(1000);
         });
     }
 }

@@ -1,9 +1,9 @@
 using Asp.Versioning;
 using Ires.Api;
-using Ires.Api.Endpoints.Person;
+using Ires.Api.Endpoints.People;
 using Ires.Data;
 
-var builder = WebApplication.CreateSlimBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
@@ -35,6 +35,6 @@ var apiVersion = app.NewApiVersionSet()
 var endpoints = app.MapGroup("api/v{v:apiVersion}")
     .WithApiVersionSet(apiVersion);
 
-endpoints.MapPersonEndpoints();
+endpoints.MapPeopleEndpoints();
 
 app.Run();

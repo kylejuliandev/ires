@@ -1,12 +1,12 @@
-﻿using Ires.Api.Endpoints.Person.CreatePerson;
+﻿using Ires.Api.Endpoints.People.CreatePerson;
 
-namespace Ires.Api.Endpoints.Person;
+namespace Ires.Api.Endpoints.People;
 
-public static class PersonEndpoints
+public static class PeopleEndpoints
 {
-    public static void MapPersonEndpoints(this IEndpointRouteBuilder app)
+    public static void MapPeopleEndpoints(this IEndpointRouteBuilder app)
     {
-        var endpoints = app.MapGroup("/person");
+        var endpoints = app.MapGroup("/people");
 
         endpoints.MapPost("", CreatePersonEndpoint.MapCreatePersonEndpoint)
             .MapToApiVersion(1.0)

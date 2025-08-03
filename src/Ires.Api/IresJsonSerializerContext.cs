@@ -1,4 +1,4 @@
-﻿using Ires.Api.Endpoints.Person.CreatePerson;
+﻿using Ires.Api.Endpoints.People.CreatePerson;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;

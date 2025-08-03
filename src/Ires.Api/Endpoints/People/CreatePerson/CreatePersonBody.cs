@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Ires.Api.Endpoints.Person.CreatePerson;
+namespace Ires.Api.Endpoints.People.CreatePerson;
 
 public record CreatePersonBody
 {

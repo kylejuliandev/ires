@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ires.Data.Migrations
 {
     [DbContext(typeof(IresDbContext))]
-    [Migration("20250803222556_InitialCreate")]
+    [Migration("20250803230242_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -66,12 +66,13 @@ namespace Ires.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
                     b.Property<Guid>("PersonId")
                         .HasColumnType("uuid");
-
-                    b.Property<string>("Text")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
