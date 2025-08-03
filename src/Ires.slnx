@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/.root/">
+    <File Path="../LICENSE" />
+    <File Path="../README.md" />
+  </Folder>
   <Project Path="Ires.Api/Ires.Api.csproj" />
   <Project Path="Ires.AppHost/Ires.AppHost.csproj" />
   <Project Path="Ires.Data/Ires.Data.csproj" />
