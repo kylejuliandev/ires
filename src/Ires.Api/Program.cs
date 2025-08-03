@@ -1,6 +1,7 @@
 using Asp.Versioning;
 using Ires.Api;
 using Ires.Api.Endpoints.Person;
+using Ires.Data;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
@@ -14,6 +15,8 @@ builder.Services.ConfigureHttpJsonOptions(options =>
 builder.Services.AddOpenApi();
 
 builder.Services.AddIresApiVersioning();
+
+builder.AddNpgsqlDbContext<IresDbContext>("iresdb");
 
 var app = builder.Build();
 
