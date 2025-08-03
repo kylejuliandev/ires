@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Ires.AppHost/Ires.AppHost.csproj" />
+  <Project Path="Ires.ServiceDefaults/Ires.ServiceDefaults.csproj" />
+</Solution>
