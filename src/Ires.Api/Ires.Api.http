@@ -1,0 +1,16 @@
+@Ires.Api_HostAddress = http://localhost:5046
+
+### Create Person
+
+POST {{Ires.Api_HostAddress}}/api/v1.0/person
+Content-Type: application/json
+Accept: application/json
+
+{
+  "first_name": "John",
+  "last_name": "Doe",
+  "gender": "Male",
+  "date_of_birth": "1998-09-26"
+}
+
+###
