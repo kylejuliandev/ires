@@ -4,14 +4,11 @@ namespace Ires.Api.Endpoints.Person.CreatePerson;
 
 public record CreatePersonBody
 {
-    [JsonPropertyName("first_name")]
-    public required string FirstName { get; init; }
+    [JsonPropertyName("given_name")]
+    public required string GivenName { get; init; }
 
-    [JsonPropertyName("last_name")]
-    public required string LastName { get; init; }
-
-    [JsonPropertyName("middle_name")]
-    public string? MiddleName { get; init; }
+    [JsonPropertyName("family_name")]
+    public required string FamilyName { get; init; }
 
     [JsonPropertyName("nickname")]
     public string? Nickname { get; init; }
