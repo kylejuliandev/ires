@@ -9,6 +9,8 @@ builder.AddServiceDefaults();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddIresClient(builder.Configuration);
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();
