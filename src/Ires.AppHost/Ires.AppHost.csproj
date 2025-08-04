@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ires.Api\Ires.Api.csproj" />
+    <ProjectReference Include="..\Ires.Frontend\Ires.Frontend.csproj" />
     <ProjectReference Include="..\Ires.MigrationService\Ires.MigrationService.csproj" />
   </ItemGroup>
 

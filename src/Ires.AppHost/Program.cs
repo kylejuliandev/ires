@@ -11,9 +11,12 @@ var migration = builder.AddProject<Projects.Ires_MigrationService>("ires-migrati
     .WithReference(database)
     .WaitFor(database);
 
-builder.AddProject<Projects.Ires_Api>("ires-api")
+var api = builder.AddProject<Projects.Ires_Api>("ires-api")
     .WithReference(database)
     .WaitFor(database)
     .WaitForCompletion(migration);
+
+builder.AddProject<Projects.Ires_Frontend>("ires-frontend")
+    .WithReference(api);
 
 builder.Build().Run();
