@@ -6,7 +6,7 @@ namespace Ires.Api.Endpoints.People.CreatePerson;
 
 public static class CreatePersonEndpoint
 {
-    public static async Task<Results<NoContent, BadRequest<ProblemDetails>>> MapCreatePersonEndpoint(
+    public static async Task<Results<NoContent, BadRequest<ProblemDetails>>> ExecuteAsync(
         [FromBody] CreatePersonBody request,
         [FromServices] IresDbContext dbContext,
         CancellationToken cancellationToken)

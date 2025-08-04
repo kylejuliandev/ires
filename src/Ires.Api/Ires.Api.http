@@ -14,4 +14,8 @@ Accept: application/json
   "notes": "Blah blah blah."
 }
 
-###
+### Get People
+
+GET {{Ires.Api_HostAddress}}/api/v1.0/people
+Accept: application/json
+

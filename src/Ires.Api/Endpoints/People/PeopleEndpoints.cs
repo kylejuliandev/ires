@@ -1,4 +1,5 @@
 ﻿using Ires.Api.Endpoints.People.CreatePerson;
+using Ires.Api.Endpoints.People.GetPeople;
 
 namespace Ires.Api.Endpoints.People;
 
@@ -8,11 +9,18 @@ public static class PeopleEndpoints
     {
         var endpoints = app.MapGroup("/people");
 
-        endpoints.MapPost("", CreatePersonEndpoint.MapCreatePersonEndpoint)
+        endpoints.MapPost("", CreatePersonEndpoint.ExecuteAsync)
             .MapToApiVersion(1.0)
             .WithName("CreatePerson")
             .WithSummary("Creates a new person")
             .WithDescription("Creates a new person in the system.")
+            .WithTags("Person");
+
+        endpoints.MapGet("", GetPeopleEndpoint.ExecuteAsync)
+            .MapToApiVersion(1.0)
+            .WithName("GetPeople")
+            .WithSummary("Retrieves all people with their notes")
+            .WithDescription("Fetches people, their details, and any associated notes.")
             .WithTags("Person");
     }
 }
