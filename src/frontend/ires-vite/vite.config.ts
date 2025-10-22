@@ -8,7 +8,15 @@ export default defineConfig(({ mode }) => {
     return {
         plugins: [react()],
         server: {
-            port: parseInt(env.VITE_PORT)
+            port: parseInt(env.VITE_PORT),
+            proxy: {
+                '/api': {
+                    target: process.env.services__iresapi__https__0 ||
+                        process.env.services__iresapi__http__0,
+                    changeOrigin: true,
+                    secure: false,
+                }
+            }
         },
         build: {
             outDir: 'dist',

@@ -11,7 +11,7 @@ var migration = builder.AddProject<Projects.Ires_MigrationService>("ires-migrati
     .WithReference(database)
     .WaitFor(database);
 
-var api = builder.AddProject<Projects.Ires_Api>("ires-api")
+var api = builder.AddProject<Projects.Ires_Api>("iresapi")
     .WithReference(database)
     .WaitFor(database)
     .WaitForCompletion(migration);
@@ -19,6 +19,7 @@ var api = builder.AddProject<Projects.Ires_Api>("ires-api")
 var frontend = builder.AddNpmApp("reactvite", "../frontend/ires-vite")
     .WithEnvironment("BROWSER", "none")
     .WithHttpEndpoint(env: "VITE_PORT")
+    .WithReference(api)
     .WithExternalHttpEndpoints();
 
 builder.Build().Run();
