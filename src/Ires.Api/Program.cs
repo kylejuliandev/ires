@@ -1,5 +1,6 @@
 using Asp.Versioning;
 using Ires.Api;
+using Ires.Api.Endpoints.Address;
 using Ires.Api.Endpoints.People;
 using Ires.Data;
 
@@ -36,5 +37,6 @@ var endpoints = app.MapGroup("api/v{v:apiVersion}")
     .WithApiVersionSet(apiVersion);
 
 endpoints.MapPeopleEndpoints();
+endpoints.MapAddressEndpoints();
 
 app.Run();

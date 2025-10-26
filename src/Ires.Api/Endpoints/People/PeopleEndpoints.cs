@@ -1,4 +1,5 @@
-﻿using Ires.Api.Endpoints.People.CreatePerson;
+﻿using Ires.Api.Endpoints.People.AddAddress;
+using Ires.Api.Endpoints.People.CreatePerson;
 using Ires.Api.Endpoints.People.GetPeople;
 
 namespace Ires.Api.Endpoints.People;
@@ -21,6 +22,13 @@ public static class PeopleEndpoints
             .WithName("GetPeople")
             .WithSummary("Retrieves all people with their notes")
             .WithDescription("Fetches people, their details, and any associated notes.")
+            .WithTags("Person");
+
+        endpoints.MapPut("/{personId:guid}", AddAddressEndpoint.ExecuteAsync)
+            .MapToApiVersion(1.0)
+            .WithName("AddAddress")
+            .WithSummary("Add Address to person")
+            .WithDescription("Associates the address to the person")
             .WithTags("Person");
     }
 }
