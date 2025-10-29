@@ -1,0 +1,52 @@
+﻿@page "/people/add"
+@rendermode InteractiveServer
+@using Ires.Frontend.Components.Pages.People.Models
+@inject IresDbContext DbContext
+@inject NavigationManager NavManager
+
+<h3>Add person</h3>
+
+<EditForm Model="model" OnValidSubmit="@HandleValidSubmit" FormName="person_entry_form">
+    <DataAnnotationsValidator />
+
+    <FluentStack Orientation="Orientation.Vertical">
+
+        <div>
+            <FluentTextField Name="givenname" @bind-Value="model!.GivenName" Label="GivenName" />
+            <FluentValidationMessage For="@(() => model.GivenName)" />
+        </div>
+
+        <FluentButton Type="ButtonType.Submit" Appearance="Appearance.Accent">Submit</FluentButton>
+    </FluentStack>
+</EditForm>
+
+@code {
+    [SupplyParameterFromForm(FormName = "person_entry_form")]
+    private CreatePersonModel? model { get; set; }
+
+    private EditContext? context { get; set; }
+
+    protected override void OnInitialized()
+    {
+        model = new CreatePersonModel();
+        context = new EditContext(model);
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        Console.WriteLine("Submitted");
+
+        var person = new Person()
+        {
+            GivenName = model.GivenName,
+            FamilyName = "Julian",
+            DateOfBirth = new DateOnly(2025, 10, 29),
+            Gender = Gender.Male
+        };
+
+        DbContext.People.Add(person);
+        await DbContext.SaveChangesAsync();
+
+        NavManager.NavigateTo("/people");
+    }
+}
