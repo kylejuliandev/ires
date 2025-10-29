@@ -7,16 +7,13 @@ var database = builder.AddPostgres("pgsql")
     .WithLifetime(ContainerLifetime.Persistent)
     .AddDatabase("iresdb");
 
-var migration = builder.AddProject<Projects.Ires_MigrationService>("ires-migrationservice")
+var migration = builder.AddProject<Projects.Ires_MigrationService>("migrationservice")
     .WithReference(database)
     .WaitFor(database);
 
-var api = builder.AddProject<Projects.Ires_Api>("iresapi")
+builder.AddProject<Projects.Ires_Frontend>("frontend")
     .WithReference(database)
     .WaitFor(database)
     .WaitForCompletion(migration);
-
-builder.AddProject<Projects.Ires_Frontend>("ires-frontend")
-    .WithReference(api);
 
 builder.Build().Run();

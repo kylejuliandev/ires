@@ -1,4 +1,4 @@
-using Ires.Frontend.Client;
+using Ires.Data;
 using Ires.Frontend.Components;
 using Microsoft.FluentUI.AspNetCore.Components;
 
@@ -14,7 +14,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddFluentUIComponents();
 builder.Services.AddDataGridEntityFrameworkAdapter();
 
-builder.Services.AddIresClient(builder.Configuration);
+builder.AddNpgsqlDbContext<IresDbContext>("iresdb");
 
 var app = builder.Build();
 
