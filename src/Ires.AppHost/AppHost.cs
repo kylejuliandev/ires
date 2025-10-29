@@ -16,4 +16,7 @@ var api = builder.AddProject<Projects.Ires_Api>("iresapi")
     .WaitFor(database)
     .WaitForCompletion(migration);
 
+builder.AddProject<Projects.Ires_Frontend>("ires-frontend")
+    .WithReference(api);
+
 builder.Build().Run();

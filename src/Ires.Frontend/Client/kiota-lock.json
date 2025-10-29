@@ -1,0 +1,28 @@
+{
+  "descriptionHash": "022FF43FC85193D3106571885826A85A7A8E5F3E7FFD5272256E02C153A715292810C90582A034034C01915D00B0B07E279D9718C63E0072DAB7A0FB0FAF704A",
+  "descriptionLocation": "../../Ires.Api/openapi/openapi.json",
+  "lockFileVersion": "1.0.0",
+  "kiotaVersion": "1.28.0",
+  "clientClassName": "IresClient",
+  "typeAccessModifier": "Public",
+  "clientNamespaceName": "Ires.Frontend.Client",
+  "language": "CSharp",
+  "usesBackingStore": false,
+  "excludeBackwardCompatible": false,
+  "includeAdditionalData": true,
+  "disableSSLValidation": false,
+  "serializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonSerializationWriterFactory"
+  ],
+  "deserializers": [
+    "Microsoft.Kiota.Serialization.Json.JsonParseNodeFactory"
+  ],
+  "structuredMimeTypes": [
+    "application/json"
+  ],
+  "includePatterns": [
+    "/api/v1/people#GET"
+  ],
+  "excludePatterns": [],
+  "disabledValidationRules": []
+}
