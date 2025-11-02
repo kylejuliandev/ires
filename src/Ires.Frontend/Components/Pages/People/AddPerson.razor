@@ -16,6 +16,29 @@
             <FluentValidationMessage For="@(() => model.GivenName)" />
         </div>
 
+        <div>
+            <FluentTextField Name="familyname" @bind-Value="model!.FamilyName" Label="Family name" />
+            <FluentValidationMessage For="@(() => model.FamilyName)" />
+        </div>
+
+        <div>
+            <FluentTextField Name="nickname" @bind-Value="model!.Nickname" Label="Nickname" />
+            <FluentValidationMessage For="@(() => model.Nickname)" />
+        </div>
+
+        <div>
+            <FluentSelectEnum
+                Label="Gender"
+                Placeholder="Select one..."
+                TEnum="CreatePersonModelGender"
+                @bind-EnumSelectedValue="@model!.Gender" />
+        </div>
+
+        <div>
+            <FluentDatePicker Label="Date of Birth" @bind-Value="@model.DateOfBirth" />
+            <FluentValidationMessage For="@(() => model.DateOfBirth)" />
+        </div>
+
         <FluentButton Type="ButtonType.Submit" Appearance="Appearance.Accent">Submit</FluentButton>
     </FluentStack>
 </EditForm>
@@ -36,12 +59,14 @@
     {
         Console.WriteLine("Submitted");
 
+
         var person = new Person()
         {
             GivenName = model.GivenName,
-            FamilyName = "Julian",
-            DateOfBirth = new DateOnly(2025, 10, 29),
-            Gender = Gender.Male
+            FamilyName = model.FamilyName,
+            Nickname = model.Nickname,
+            DateOfBirth = model.DateOfBirth is null ? DateOnly.MinValue : DateOnly.FromDateTime(model.DateOfBirth.Value),
+            Gender = GetGender(model.Gender),
         };
 
         DbContext.People.Add(person);
@@ -49,4 +74,13 @@
 
         NavManager.NavigateTo("/people");
     }
+
+    private Gender GetGender(CreatePersonModelGender? gender) => gender switch
+    {
+        CreatePersonModelGender.Male => Gender.Male,
+        CreatePersonModelGender.Female => Gender.Female,
+        CreatePersonModelGender.NonBinary => Gender.NonBinary,
+        CreatePersonModelGender.Other => Gender.NotSpecified,
+        _ => Gender.NotSpecified
+    };
 }
