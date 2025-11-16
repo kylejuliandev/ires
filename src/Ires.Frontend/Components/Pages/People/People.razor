@@ -1,7 +1,6 @@
 ﻿@page "/people"
 @rendermode InteractiveServer
 @inject IresDbContext Context
-@inject NavigationManager NavManager
 
 <h3>People</h3>
 
@@ -24,6 +23,4 @@
     private RenderFragment template = @<span />;
 
     private IQueryable<Person> filteredPeople => Context.People;
-
-    private void NavigateToAddPerson() => NavManager.NavigateTo("/people/add", true);
 }

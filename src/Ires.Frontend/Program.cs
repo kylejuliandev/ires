@@ -1,5 +1,6 @@
 using Ires.Data;
 using Ires.Frontend.Components;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.FluentUI.AspNetCore.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,8 @@ builder.Services.AddHttpClient();
 builder.Services.AddFluentUIComponents();
 builder.Services.AddDataGridEntityFrameworkAdapter();
 
-builder.AddNpgsqlDbContext<IresDbContext>("iresdb");
+builder.Services.AddDbContext<IresDbContext>(
+    db => db.UseSqlite($"Data Source={builder.Configuration["DB_LOCATION"]}"));
 
 var app = builder.Build();
 

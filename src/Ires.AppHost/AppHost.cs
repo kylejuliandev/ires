@@ -1,19 +1,15 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var database = builder.AddPostgres("pgsql")
-    .WithPgAdmin(c => 
-        c.WithLifetime(ContainerLifetime.Persistent)
-    )
-    .WithLifetime(ContainerLifetime.Persistent)
-    .AddDatabase("iresdb");
+var temp = Path.Combine(Path.GetTempPath(), "Ires");
+Directory.CreateDirectory(temp);
+
+var sqliteFilePath = Path.Combine(temp, "ires.db");
 
 var migration = builder.AddProject<Projects.Ires_MigrationService>("migrationservice")
-    .WithReference(database)
-    .WaitFor(database);
+    .WithEnvironment("DB_LOCATION", sqliteFilePath);
 
 builder.AddProject<Projects.Ires_Frontend>("frontend")
-    .WithReference(database)
-    .WaitFor(database)
+    .WithEnvironment("DB_LOCATION", sqliteFilePath)
     .WaitForCompletion(migration);
 
 builder.Build().Run();
