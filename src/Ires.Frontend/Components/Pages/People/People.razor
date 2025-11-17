@@ -1,26 +1,60 @@
 ﻿@page "/people"
 @rendermode InteractiveServer
 @inject IresDbContext Context
+@inject NavigationManager NavManager
+@inject IJSRuntime JSRuntime
 
-<h3>People</h3>
-
-<FluentDataGrid Items="@filteredPeople" Pagination="@pagination" AutoFit="true">
-    <PropertyColumn Property="@(p => p.Id)" />
-    <PropertyColumn Property="@(p => p.GivenName)" Sortable="true" IsDefaultSortColumn="true" Title="First name" />
-    <PropertyColumn Property="@(p => p.FamilyName)" Title="Last name" />
-    <PropertyColumn Property="@(p => p.Gender)" />
-    <PropertyColumn Property="@(p => p.DateOfBirth)" Title="Date of Birth" Format="yyyy-MM-dd" />
-</FluentDataGrid>
-
-<FluentPaginator State="@pagination" />
-
-<NavLink href="/people/add" target="_blank">Add person</NavLink>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <QuickGrid Items="@filteredPeople" Pagination="@pagination" Class="table table-striped table-hover" @ref="quickGridRef">
+                <PropertyColumn Property="@(p => p.GivenName)" Sortable="true" IsDefaultSortColumn="true" Title="Given name" />
+                <PropertyColumn Property="@(p => p.FamilyName)" Title="Last name" />
+                <PropertyColumn Property="@(p => p.Gender)" />
+                <PropertyColumn Property="@(p => p.DateOfBirth)" Title="Date of Birth" Format="yyyy-MM-dd" />
+                <TemplateColumn Context="person">
+                    <a class="btn btn-link" href="@($"person/{person.Id}/edit")">Edit</a>
+                    <button class="btn btn-link" type="button" @onclick="() => DeletePersonAsync(person)">Delete</button>
+                </TemplateColumn>
+            </QuickGrid>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <Paginator State="@pagination" />
+        </div>
+    </div>
+    <div class="row justify-content-end py-5">
+        <div class="col-auto">
+            <button class="btn btn-primary px-5" type="button" @onclick="NavigateToAddPerson">Add person</button>
+        </div>
+    </div>
+</div>
 
 @code {
-    private IresDbContext context = default!;
-
-    private PaginationState pagination = new PaginationState() { ItemsPerPage = 2 };
-    private RenderFragment template = @<span />;
+    private QuickGrid<Person>? quickGridRef;
+    private PaginationState pagination = new PaginationState() { ItemsPerPage = 20 };
 
     private IQueryable<Person> filteredPeople => Context.People;
+
+    private void NavigateToAddPerson(MouseEventArgs _)
+    {
+        NavManager.NavigateTo("/people/add", replace: true);
+    }
+
+    private async Task DeletePersonAsync(Person person)
+    {
+        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete {person.GivenName} {person.FamilyName}?");
+        if (confirmed)
+        {
+            Context.People.Remove(person);
+
+            await Context.SaveChangesAsync();
+
+            if (quickGridRef is not null)
+            {
+                await quickGridRef.RefreshDataAsync();
+            }
+        }
+    }
 }

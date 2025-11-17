@@ -1,7 +1,6 @@
 using Ires.Data;
 using Ires.Frontend.Components;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.FluentUI.AspNetCore.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,11 +11,11 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddHttpClient();
-builder.Services.AddFluentUIComponents();
-builder.Services.AddDataGridEntityFrameworkAdapter();
 
 builder.Services.AddDbContext<IresDbContext>(
     db => db.UseSqlite($"Data Source={builder.Configuration["DB_LOCATION"]}"));
+
+builder.Services.AddQuickGridEntityFrameworkAdapter();
 
 var app = builder.Build();
 

@@ -1,0 +1,7 @@
+﻿::deep tr {
+    height: 2em;
+}
+
+::deep tr:has(> td:empty) {
+    display: none;
+}
