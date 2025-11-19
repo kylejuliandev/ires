@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var dbLocation = builder.Configuration["DB_LOCATION"]
+    ?? throw new InvalidOperationException("DB_LOCATION configuration is missing");
+
 builder.AddServiceDefaults();
 
 // Add services to the container.
@@ -13,7 +16,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddHttpClient();
 
 builder.Services.AddDbContext<IresDbContext>(
-    db => db.UseSqlite($"Data Source={builder.Configuration["DB_LOCATION"]}"));
+    db => db.UseSqlite($"Data Source={dbLocation}"));
 
 builder.Services.AddQuickGridEntityFrameworkAdapter();
 
