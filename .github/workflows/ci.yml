@@ -34,7 +34,7 @@ jobs:
         context: src
         file: src/Ires.MigrationService/Dockerfile
         push: false
-        tags: ires/migration-service:latest,ires/frontend:${{ github.run_number }}
+        tags: ires/migration-service:latest,ires/migration-service:${{ github.run_number }}
         build-args: |
           BUILD_CONFIGURATION=Release
           APP_UID=1654
