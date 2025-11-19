@@ -19,7 +19,7 @@ public class CreatePersonModel
     public CreatePersonModelGender? Gender { get; set; }
 
     [Required(ErrorMessage = "You must specify a date of birth.")]
-    public DateTime? DateOfBirth { get; set; }
+    public DateOnly? DateOfBirth { get; set; }
 }
 
 public enum CreatePersonModelGender

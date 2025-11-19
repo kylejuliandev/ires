@@ -1,7 +1,37 @@
 ﻿@page "/"
+@rendermode InteractiveServer
+@inject IresDbContext Context
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<div class="p-5 text-center bg-body-tertiary rounded-3">
+    <h1 class="display-3">Upcoming birthdays!</h1>
+    <div class="my-5 text-center">
+        <ul class="list-group list-group-flush">
+            @foreach (var person in upcomingBirthdays)
+            {
+                <li class="list-group-item shadow my-3 rounded">
+                    <p class="fs-4 fw-bold">@person.GivenName @person.FamilyName</p>
+                    <span class="fst-italic">in @(person.BirthDayOfYear - today.DayOfYear) days</span>
+                    <p class="fs-5">@person.DateOfBirth.ToLongDateString()</p>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
 
-Welcome to your new app.
+@code {
+    private DateOnly today = DateOnly.FromDateTime(DateTime.Today);
+    private List<Person> upcomingBirthdays = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var from = today.DayOfYear;
+        var to = today.AddDays(30).DayOfYear;
+
+        upcomingBirthdays = await Context.People
+            .Where(p => p.BirthDayOfYear >= from && p.BirthDayOfYear <= to)
+            .OrderBy(p => p.BirthDayOfYear)
+            .ToListAsync();
+    }
+}

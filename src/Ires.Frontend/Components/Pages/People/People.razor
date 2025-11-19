@@ -33,7 +33,7 @@
 
 @code {
     private QuickGrid<Person>? quickGridRef;
-    private PaginationState pagination = new PaginationState() { ItemsPerPage = 20 };
+    private PaginationState pagination = new PaginationState() { ItemsPerPage = 10 };
 
     private IQueryable<Person> filteredPeople => Context.People;
 
