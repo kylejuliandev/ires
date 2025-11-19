@@ -35,6 +35,9 @@ jobs:
         file: src/Ires.MigrationService/Dockerfile
         push: false
         tags: ires/migration-service:latest,ires/frontend:${{ github.run_number }}
+        build-args: |
+          BUILD_CONFIGURATION=Release
+          APP_UID=1654
 
     - name: Build Frontend Service Image
       uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 #v6
@@ -43,3 +46,6 @@ jobs:
         file: src/Ires.Frontend/Dockerfile
         push: false
         tags: ires/frontend:latest,ires/frontend:${{ github.run_number }}
+        build-args: |
+          BUILD_CONFIGURATION=Release
+          APP_UID=1654

@@ -1,13 +1,13 @@
 # See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
-FROM mcr.microsoft.com/dotnet/runtime:9.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble-chiseled-extra@sha256:64f42416803e32bee1f5d2d3eab5825581abd45b2e9c6f888fc873ff2c4cc378 AS base
 USER $APP_UID
 WORKDIR /app
 
 
 # This stage is used to build the service project
-FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:10.0-noble@sha256:c7445f141c04f1a6b454181bd098dcfa606c61ba0bd213d0a702489e5bd4cd71 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Ires.MigrationService/Ires.MigrationService.csproj", "Ires.MigrationService/"]
