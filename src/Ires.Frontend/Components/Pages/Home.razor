@@ -12,7 +12,7 @@
             {
                 <li class="list-group-item shadow my-3 rounded">
                     <p class="fs-4 fw-bold">@person.GivenName @person.FamilyName</p>
-                    <span class="fst-italic">in @(person.BirthDayOfYear - today.DayOfYear) days</span>
+                    <span class="fst-italic">in @(person.BirthdayDayOfYear - today.DayOfYear) days</span>
                     <p class="fs-5">@person.DateOfBirth.ToLongDateString()</p>
                 </li>
             }
@@ -30,8 +30,8 @@
         var to = today.AddDays(30).DayOfYear;
 
         upcomingBirthdays = await Context.People
-            .Where(p => p.BirthDayOfYear >= from && p.BirthDayOfYear <= to)
-            .OrderBy(p => p.BirthDayOfYear)
+            .Where(p => p.BirthdayDayOfYear >= from && p.BirthdayDayOfYear <= to)
+            .OrderBy(p => p.BirthdayDayOfYear)
             .ToListAsync();
     }
 }
