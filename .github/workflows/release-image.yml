@@ -58,6 +58,7 @@ jobs:
           context: src
           file: ${{ matrix.dockerfile }}
           push: true
+          platforms: linux/arm64
           build-args: |
             BUILD_CONFIGURATION=Release
             APP_UID=1654

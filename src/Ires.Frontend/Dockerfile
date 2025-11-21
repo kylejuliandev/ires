@@ -9,20 +9,22 @@ EXPOSE 8081
 
 
 # This stage is used to build the service project
-FROM mcr.microsoft.com/dotnet/sdk:10.0-noble@sha256:c7445f141c04f1a6b454181bd098dcfa606c61ba0bd213d0a702489e5bd4cd71 AS build
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0-noble@sha256:c7445f141c04f1a6b454181bd098dcfa606c61ba0bd213d0a702489e5bd4cd71 AS build
 ARG BUILD_CONFIGURATION=Release
+ARG TARGETARCH
 WORKDIR /src
 COPY ["Ires.Frontend/Ires.Frontend.csproj", "Ires.Frontend/"]
 COPY ["Ires.ServiceDefaults/Ires.ServiceDefaults.csproj", "Ires.ServiceDefaults/"]
 RUN dotnet restore "./Ires.Frontend/Ires.Frontend.csproj"
 COPY . .
 WORKDIR "/src/Ires.Frontend"
-RUN dotnet build "./Ires.Frontend.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./Ires.Frontend.csproj" -c $BUILD_CONFIGURATION -a $TARGETARCH -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Ires.Frontend.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+ARG TARGETARCH
+RUN dotnet publish "./Ires.Frontend.csproj" -c $BUILD_CONFIGURATION -a $TARGETARCH -o /app/publish /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final
