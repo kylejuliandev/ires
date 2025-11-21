@@ -6,7 +6,9 @@ USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
-
+LABEL org.opencontainers.image.source=https://github.com/kylejuliandev
+LABEL org.opencontainers.image.description="Ires Frontend service which serves the web application."
+LABEL org.opencontainers.image.licenses=AGPL-3.0
 
 # This stage is used to build the service project
 FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0-noble@sha256:c7445f141c04f1a6b454181bd098dcfa606c61ba0bd213d0a702489e5bd4cd71 AS build

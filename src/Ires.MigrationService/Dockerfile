@@ -4,6 +4,9 @@
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble-chiseled-extra@sha256:64f42416803e32bee1f5d2d3eab5825581abd45b2e9c6f888fc873ff2c4cc378 AS base
 USER $APP_UID
 WORKDIR /app
+LABEL org.opencontainers.image.source=https://github.com/kylejuliandev
+LABEL org.opencontainers.image.description="Ires Migration service which applies Database migrations."
+LABEL org.opencontainers.image.licenses=AGPL-3.0
 
 
 # This stage is used to build the service project
