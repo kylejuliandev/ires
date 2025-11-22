@@ -1,62 +1,115 @@
 {
-  "version": "0.0.1",
-  "author": "kylejuliandev",
-  "devDependencies": {
-    "@semantic-release/changelog": "^6.0.3",
-    "@semantic-release/commit-analyzer": "^10.0.4",
-    "@semantic-release/git": "^10.0.1",
-    "@semantic-release/github": "^11.0.1",
-    "@semantic-release/release-notes-generator": "^11.0.7",
-    "semantic-release": "^24.2.0"
-  },
-  "release": {
-    "branches": [
-      "main"
-    ],
-    "plugins": [
-      [
-        "@semantic-release/commit-analyzer",
-        {
-          "preset": "angular",
-          "releaseRules": [
-            {
-              "type": "docs",
-              "release": "patch"
-            },
-            {
-              "type": "refactor",
-              "release": "patch"
-            },
-            {
-              "type": "style",
-              "release": "patch"
-            }
-          ]
-        }
-      ],
-      "@semantic-release/release-notes-generator",
-      "@semantic-release/changelog",
-      [
-        "@semantic-release/github",
-        {
-          "assets": [
-            {
-              "path": "dist.zip",
-              "label": "Distribution"
-            }
-          ]
-        }
-      ],
-      [
-        "@semantic-release/git",
-        {
-          "assets": [
-            "package.json",
-            "CHANGELOG.md"
-          ],
-          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-        }
-      ]
-    ]
-  }
+    "author": "kylejuliandev",
+    "devDependencies": {
+        "@semantic-release/changelog": "^6.0.3",
+        "@semantic-release/commit-analyzer": "^10.0.4",
+        "@semantic-release/git": "^10.0.1",
+        "@semantic-release/github": "^11.0.1",
+        "@semantic-release/release-notes-generator": "^11.0.7",
+        "semantic-release": "^24.2.0"
+    },
+    "release": {
+        "branches": [
+            "main"
+        ],
+        "plugins": [
+            [
+                "@semantic-release/commit-analyzer",
+                {
+                    "preset": "conventionalcommits",
+                    "releaseRules": [
+                        {
+                            "release": "minor",
+                            "type": "feat"
+                        },
+                        {
+                            "release": "patch",
+                            "type": "fix"
+                        },
+                        {
+                            "release": "patch",
+                            "type": "docs"
+                        },
+                        {
+                            "release": "patch",
+                            "type": "refactor"
+                        },
+                        {
+                            "release": "patch",
+                            "type": "style"
+                        },
+                        {
+                            "release": "patch",
+                            "type": "chore"
+                        },
+                        {
+                            "breaking": true,
+                            "release": "major"
+                        }
+                    ]
+                }
+            ],
+            [
+                "@semantic-release/release-notes-generator",
+                {
+                    "preset": "conventionalcommits",
+                    "types": [
+                        {
+                            "section": "Features",
+                            "type": "feat"
+                        },
+                        {
+                            "section": "Bug Fixes",
+                            "type": "fix"
+                        },
+                        {
+                            "section": "Documentation",
+                            "type": "docs"
+                        },
+                        {
+                            "section": "Code Style",
+                            "type": "style"
+                        },
+                        {
+                            "section": "Refactoring",
+                            "type": "refactor"
+                        },
+                        {
+                            "section": "Chores",
+                            "type": "chore"
+                        },
+                        {
+                            "section": "Tests",
+                            "type": "test"
+                        },
+                        {
+                            "section": "Performance",
+                            "type": "perf"
+                        },
+                        {
+                            "section": "Build System",
+                            "type": "build"
+                        },
+                        {
+                            "section": "CI",
+                            "type": "ci"
+                        }
+                    ]
+                }
+            ],
+            "@semantic-release/changelog",
+            "@semantic-release/github",
+            [
+                "@semantic-release/git",
+                {
+                    "assets": [
+                        "package.json",
+                        "CHANGELOG.md"
+                    ],
+                    "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+                }
+            ]
+        ]
+    },
+    "version": "0.0.1"
 }
