@@ -17,7 +17,8 @@ Set-Location $scriptDir
 
 try {
     # Run the migration command
-    dotnet tool run dotnet-ef migrations add $MigrationName --startup-project .\src\Ires.MigrationService\ --project .\src\Ires.Data\
+	$env:DB_LOCATION=$scriptDir
+    dotnet tool run dotnet-ef migrations add $MigrationName --startup-project .\src\Ires.Frontend\ --project .\src\Ires.Data\
 } finally {
     Set-Location $originalLocation
 }

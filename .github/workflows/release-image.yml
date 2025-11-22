@@ -25,10 +25,7 @@ jobs:
         include:
           - service: ires-frontend
             dockerfile: src/Ires.Frontend/Dockerfile
-            image_name: ires-frontend
-          - service: ires-migrationservice
-            dockerfile: src/Ires.MigrationService/Dockerfile
-            image_name: ires-migrationservice
+            image_name: ires
 
     env:
       REGISTRY: ghcr.io
@@ -59,9 +56,6 @@ jobs:
           file: ${{ matrix.dockerfile }}
           push: true
           platforms: linux/amd64,linux/arm64
-          build-args: |
-            BUILD_CONFIGURATION=Release
-            APP_UID=1654
           tags: |
             ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ matrix.image_name }}:${{ env.TAG }}
             ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ matrix.image_name }}:latest

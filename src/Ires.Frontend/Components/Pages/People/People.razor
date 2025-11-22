@@ -13,7 +13,7 @@
                 <PropertyColumn Property="@(p => p.Gender)" />
                 <PropertyColumn Property="@(p => p.DateOfBirth)" Title="Date of Birth" Format="yyyy-MM-dd" />
                 <TemplateColumn Context="person">
-                    <a class="btn btn-link" href="@($"person/{person.Id}/edit")">Edit</a>
+                    <a class="btn btn-link" href="@($"people/{person.Id}/edit")">Edit</a>
                     <button class="btn btn-link" type="button" @onclick="() => DeletePersonAsync(person)">Delete</button>
                 </TemplateColumn>
             </QuickGrid>

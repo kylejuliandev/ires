@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ires.Data.Migrations
 {
     [DbContext(typeof(IresDbContext))]
-    [Migration("20251116145638_Initial")]
+    [Migration("20251122111018_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

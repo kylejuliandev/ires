@@ -1,4 +1,5 @@
 using Ires.Data;
+using Ires.Frontend;
 using Ires.Frontend.Components;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,9 @@ builder.Services.AddDbContext<IresDbContext>(
     db => db.UseSqlite($"Data Source={dbLocation}"));
 
 builder.Services.AddQuickGridEntityFrameworkAdapter();
+
+// Migrations
+builder.Services.AddHostedService<Worker>();
 
 var app = builder.Build();
 

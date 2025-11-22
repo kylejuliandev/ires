@@ -90,9 +90,6 @@ namespace Ires.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("BirthdayDayOfYear")
-                        .HasColumnType("INTEGER");
-
                     b.Property<DateOnly>("DateOfBirth")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT")

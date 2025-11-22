@@ -14,8 +14,6 @@ public class Person
 
     public required DateOnly DateOfBirth { get; set; }
 
-    public required int BirthdayDayOfYear { get; set; }
-
     public ICollection<PersonNote> Notes { get; set; } = [];
 
     public ICollection<Address> Addresses { get; set; } = [];

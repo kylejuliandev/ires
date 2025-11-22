@@ -5,14 +5,36 @@
 <PageTitle>Home</PageTitle>
 
 <div class="p-5 text-center bg-body-tertiary rounded-3">
-    <h1 class="display-3">Upcoming birthdays!</h1>
-    <div class="my-5 text-center">
+    @if (upcomingBirthdays.Count == 0)
+    {
+        <h1 class="display-3">No upcoming birthdays!</h1>
+    }
+    else
+    {
+        <h1 class="display-3">Upcoming birthdays!</h1>
+    }
+    
+    <div class="row justify-content-end my-3">
+        <div class="col-2">
+            <div class="form-floating">
+                <InputSelect id="duration-select" class="form-select" @bind-Value="days" TValue="int" @bind-Value:after="OnDropdownChanged">
+                    <option value="@(14)" selected>14</option>
+                    <option value="@(30)">30</option>
+                    <option value="@(60)">60</option>
+                    <option value="@(90)">90</option>
+                </InputSelect>
+                <label for="duration-select">Days</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="text-center">
         <ul class="list-group list-group-flush">
             @foreach (var person in upcomingBirthdays)
             {
                 <li class="list-group-item shadow my-3 rounded">
                     <p class="fs-4 fw-bold">@person.GivenName @person.FamilyName</p>
-                    <span class="fst-italic">in @(person.BirthdayDayOfYear - today.DayOfYear) days</span>
+                    <span class="fst-italic">in @person.DaysFromTodayTillBirthday days</span>
                     <p class="fs-5">@person.DateOfBirth.ToLongDateString()</p>
                 </li>
             }
@@ -22,16 +44,65 @@
 
 @code {
     private DateOnly today = DateOnly.FromDateTime(DateTime.Today);
-    private List<Person> upcomingBirthdays = new();
+    private List<BirthdayPerson> upcomingBirthdays = new();
+
+    private int days = 14;
 
     protected override async Task OnInitializedAsync()
     {
-        var from = today.DayOfYear;
-        var to = today.AddDays(30).DayOfYear;
+        await LoadDataAsync();
+    }
 
-        upcomingBirthdays = await Context.People
-            .Where(p => p.BirthdayDayOfYear >= from && p.BirthdayDayOfYear <= to)
-            .OrderBy(p => p.BirthdayDayOfYear)
-            .ToListAsync();
+    private async Task OnDropdownChanged()
+    {
+        await LoadDataAsync();
+
+        StateHasChanged();
+    }
+
+    private async Task LoadDataAsync()
+    {
+        var from = today.DayOfYear;
+        var to = today.AddDays(days).DayOfYear;
+
+        var people = await Context.People.ToListAsync();
+
+        upcomingBirthdays = people
+            .Select(p => new BirthdayPerson
+            {
+                GivenName = p.GivenName,
+                FamilyName = p.FamilyName,
+                DateOfBirth = p.DateOfBirth,
+                DaysFromTodayTillBirthday = GetDaysTillBirthday(p)
+            })
+            .Where(p => p.DaysFromTodayTillBirthday <= days)
+            .OrderBy(p => p.DaysFromTodayTillBirthday)
+            .ToList();
+    }
+
+    private int GetDaysTillBirthday(Person person)
+    {
+        var next = person.DateOfBirth.AddYears(today.Year - person.DateOfBirth.Year);
+
+        if (next < today)
+        {
+            if (!DateTime.IsLeapYear(next.Year + 1))
+                next = next.AddYears(1);
+            else
+                next = new DateOnly(next.Year + 1, person.DateOfBirth.Month, person.DateOfBirth.Day);
+        }
+
+        return next.DayNumber - today.DayNumber;
+    }
+
+    class BirthdayPerson
+    {
+        public int DaysFromTodayTillBirthday { get; set; }
+
+        public string GivenName { get; set; }
+
+        public string FamilyName { get; set; }
+
+        public DateOnly DateOfBirth { get; set; }
     }
 }
