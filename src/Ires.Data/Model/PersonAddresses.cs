@@ -6,5 +6,5 @@ public class PersonAddresses
 
     public Guid AddressId { get; set; }
 
-    public DateTimeOffset AddedOn { get; set; }
+    public DateTimeOffset AddedOn { get; set; } = DateTimeOffset.UtcNow;
 }

@@ -53,9 +53,7 @@ public class IresDbContext : DbContext
 
             e.HasMany(a => a.People)
                 .WithMany(p => p.Addresses)
-                .UsingEntity<PersonAddresses>(
-                    j => j.Property(e => e.AddedOn).HasDefaultValueSql("now()")
-                );
+                .UsingEntity<PersonAddresses>();
         });
 
         modelBuilder.Entity<ContactDetail>(e =>
