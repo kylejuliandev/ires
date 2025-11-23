@@ -5,3 +5,10 @@
 html, body {
     --bs-body-font-family: "Inter", sans-serif;
 }
+
+.title-footer {
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+    font-size: .875em;
+    color: #6c757d;
+}

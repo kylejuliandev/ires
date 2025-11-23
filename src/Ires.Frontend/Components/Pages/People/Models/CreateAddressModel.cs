@@ -23,4 +23,14 @@ public class CreateAddressModel
     [Required(ErrorMessage = "You must specify a Country.")]
     [MaxLength(100, ErrorMessage = "The maximum length of a Country is 100 characters.")]
     public string Country { get; set; }
+
+    [Required(ErrorMessage = "You must specify a Address Type.")]
+    public AddressTypeModel AddressType { get; set; } = AddressTypeModel.Home;
+}
+
+public enum AddressTypeModel
+{
+    Other,
+    Home,
+    Work
 }

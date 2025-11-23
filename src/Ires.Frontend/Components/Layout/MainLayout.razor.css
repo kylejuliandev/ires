@@ -18,3 +18,7 @@
         right: 0.75rem;
         top: 0.5rem;
     }
+
+footer p {
+    font-size: .875em;
+}

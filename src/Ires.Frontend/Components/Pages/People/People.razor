@@ -6,6 +6,10 @@
 
 <PageTitle>Manage</PageTitle>
 
+<h4 class="pt-3">Manage</h4>
+<p class="title-footer">Information about their addresses.</p>
+<hr />
+
 <QuickGrid Items="@filteredPeople" Pagination="@pagination" Class="table table-striped table-hover align-middle" @ref="quickGridRef">
     <PropertyColumn Property="@(p => p.GivenName)" Sortable="true" IsDefaultSortColumn="true" Title="Given name" />
     <PropertyColumn Property="@(p => p.FamilyName)" Title="Last name" />
@@ -19,7 +23,7 @@
 
 <Paginator State="@pagination" />
 
-<div class="row justify-content-end my-5">
+<div class="row justify-content-end mt-5">
     <div class="col-auto">
         <button class="btn btn-primary px-5" type="button" @onclick="NavigateToAddPerson">Add person</button>
     </div>

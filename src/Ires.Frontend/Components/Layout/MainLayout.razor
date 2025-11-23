@@ -1,17 +1,27 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
-    <div class="container my-5">
+    <div class="container mt-5 mb-3">
         <header>
             <NavMenu />
         </header>
     </div>
 
     <main>
-        <div class="container my-5">
+        <div class="container">
             @Body
         </div>
     </main>
+
+    <footer class="my-5 sticky-bottom">
+        <div class="container">
+            <hr />
+            <p class="text-muted text-end">
+                Version: @typeof(Program).Assembly.GetName().Version - 
+                Powered by @System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription
+            </p>
+        </div>
+    </footer>
 </div>
 
 <div id="blazor-error-ui" data-nosnippet>

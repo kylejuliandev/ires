@@ -2,29 +2,28 @@
 @inject IresDbContext Context
 @inject IJSRuntime JSRuntime
 
-<h4 class="pt-3">Addresses</h4>
-<p class="title-footer">Information about their addresses.</p>
+<div class="row justify-content-around pt-3">
+    <div class="col">
+        <h4>Addresses</h4>
+        <p class="title-footer">Information about their addresses.</p>
+    </div>
+    <div class="col-1 align-content-center text-end">
+        <a class="btn btn-success" @onclick="OpenDialogAsync">+</a>
+    </div>
+</div>
+
 <hr />
 
 @if (filteredAddresses.Any())
 {
-    <QuickGrid Items="@filteredAddresses" Pagination="@pagination" Class="table table-striped table-hover align-middle" @ref="quickGridRef">
-        <PropertyColumn Property="@(p => p.Street)" Title="Street" />
-        <PropertyColumn Property="@(p => p.State)" Title="State" />
-        <PropertyColumn Property="@(p => p.City)" Title="City" />
-        <PropertyColumn Property="@(p => p.PostalCode)" Title="Postal Code" />
-        <PropertyColumn Property="@(p => p.Country)" Title="Country" />
-        <TemplateColumn Context="address">
-            <button class="btn btn-link" type="button" @onclick="() => DeleteAddressAsync(address)">Delete</button>
-        </TemplateColumn>
-    </QuickGrid>
-}
-
-<div class="row justify-content-center my-5">
-    <div class="col-auto">
-        <a class="btn btn-success px-5" @onclick="OpenDialog">Add address</a>
+    <h5>Home</h5>
+    <div class="row">
+        @foreach (var address in filteredAddresses.Where(fa => fa.Type == AddressType.Home))
+        {
+            <AddressCard Address="address" OnAddressDeleted="OnAddressDeleted" />
+        }
     </div>
-</div>
+}
 
 <div class="modal @_dialogCss" tabindex="-1" aria-hidden="true">
     <EditForm EditContext="createAddressEditContext" OnValidSubmit="@HandleValidSubmit" FormName="address_entry_form">
@@ -34,13 +33,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5">Add address</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="CloseDialog"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="CloseDialogAsync"></button>
                 </div>
                 <div class="modal-body">
                     <AddAddress Model="createAddressModel" />
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="CloseDialog">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="CloseDialogAsync">Close</button>
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
@@ -60,17 +59,19 @@
     [SupplyParameterFromForm(FormName = "address_entry_form")]
     private CreateAddressModel? createAddressModel { get; set; }
 
-    private QuickGrid<Address>? quickGridRef;
-    private PaginationState pagination = new PaginationState() { ItemsPerPage = 5 };
-
     private IQueryable<Address> filteredAddresses => Context.Addresses.Where(a => a.People.Any(p => p.Id == PersonId));
-
-    private bool _dialogOpen;
-    private string _dialogCss => _dialogOpen ? "show" : "hide";
 
     protected override void OnInitialized()
     {
-        createAddressModel ??= new CreateAddressModel();
+        var faker = new Bogus.Faker<CreateAddressModel>()
+            .RuleFor(f => f.Street, f => f.Address.StreetAddress())
+            .RuleFor(f => f.City, f => f.Address.City())
+            .RuleFor(f => f.State, f => f.Address.County())
+            .RuleFor(f => f.Country, f => "United Kingdom")
+            .RuleFor(f => f.PostalCode, f => f.Address.ZipCode())
+            .Generate();
+
+        createAddressModel = faker;
         createAddressEditContext = new EditContext(createAddressModel);
         createAddressEditContext.SetFieldCssClassProvider(new CustomFieldClassProvider());
     }
@@ -79,7 +80,7 @@
     {
         var address = new Address
         {
-            Type = AddressType.Unspecified,
+            Type = createAddressModel.AddressType.GetAddressType(),
             Street = createAddressModel.Street,
             City = createAddressModel.City,
             State = createAddressModel.State,
@@ -95,34 +96,28 @@
 
         await Context.SaveChangesAsync();
 
-        await CloseDialog();
+        await CloseDialogAsync();
     }
 
-    private Task OpenDialog()
+    private bool _dialogOpen;
+    private string _dialogCss => _dialogOpen ? "show" : "hide";
+
+    private Task OpenDialogAsync()
     {
         _dialogOpen = true;
+
         return Task.CompletedTask;
     }
 
-    private Task CloseDialog()
+    private Task CloseDialogAsync()
     {
         _dialogOpen = false;
+
         return Task.CompletedTask;
     }
 
-    private async Task DeleteAddressAsync(Address address)
+    private async Task OnAddressDeleted()
     {
-        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete this address?");
-        if (confirmed)
-        {
-            Context.Addresses.Remove(address);
-
-            await Context.SaveChangesAsync();
-
-            if (quickGridRef is not null)
-            {
-                await quickGridRef.RefreshDataAsync();
-            }
-        }
+        StateHasChanged();
     }
 }
