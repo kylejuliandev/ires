@@ -6,30 +6,22 @@
 
 <PageTitle>Manage</PageTitle>
 
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <QuickGrid Items="@filteredPeople" Pagination="@pagination" Class="table table-striped table-hover" @ref="quickGridRef">
-                <PropertyColumn Property="@(p => p.GivenName)" Sortable="true" IsDefaultSortColumn="true" Title="Given name" />
-                <PropertyColumn Property="@(p => p.FamilyName)" Title="Last name" />
-                <PropertyColumn Property="@(p => p.Gender)" />
-                <PropertyColumn Property="@(p => p.DateOfBirth)" Title="Date of Birth" Format="yyyy-MM-dd" />
-                <TemplateColumn Context="person">
-                    <a class="btn btn-link" href="@($"people/{person.Id}/edit")">Edit</a>
-                    <button class="btn btn-link" type="button" @onclick="() => DeletePersonAsync(person)">Delete</button>
-                </TemplateColumn>
-            </QuickGrid>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <Paginator State="@pagination" />
-        </div>
-    </div>
-    <div class="row justify-content-end py-5">
-        <div class="col-auto">
-            <button class="btn btn-primary px-5" type="button" @onclick="NavigateToAddPerson">Add person</button>
-        </div>
+<QuickGrid Items="@filteredPeople" Pagination="@pagination" Class="table table-striped table-hover align-middle" @ref="quickGridRef">
+    <PropertyColumn Property="@(p => p.GivenName)" Sortable="true" IsDefaultSortColumn="true" Title="Given name" />
+    <PropertyColumn Property="@(p => p.FamilyName)" Title="Last name" />
+    <PropertyColumn Property="@(p => p.Gender)" />
+    <PropertyColumn Property="@(p => p.DateOfBirth)" Title="Date of Birth" Format="yyyy-MM-dd" />
+    <TemplateColumn Context="person">
+        <a class="btn btn-link" href="@($"people/{person.Id}/edit")">Edit</a>
+        <button class="btn btn-link" type="button" @onclick="() => DeletePersonAsync(person)">Delete</button>
+    </TemplateColumn>
+</QuickGrid>
+
+<Paginator State="@pagination" />
+
+<div class="row justify-content-end my-5">
+    <div class="col-auto">
+        <button class="btn btn-primary px-5" type="button" @onclick="NavigateToAddPerson">Add person</button>
     </div>
 </div>
 
