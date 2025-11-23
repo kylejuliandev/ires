@@ -26,7 +26,8 @@ RUN dotnet build "./Ires.Frontend.csproj" -c $BUILD_CONFIGURATION -a $TARGETARCH
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 ARG TARGETARCH
-RUN dotnet publish "./Ires.Frontend.csproj" -c $BUILD_CONFIGURATION -a $TARGETARCH -o /app/publish /p:UseAppHost=false
+ARG VERSION
+RUN dotnet publish "./Ires.Frontend.csproj" -c $BUILD_CONFIGURATION -a $TARGETARCH -o /app/publish -p:Version=$VERSION /p:UseAppHost=false
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final

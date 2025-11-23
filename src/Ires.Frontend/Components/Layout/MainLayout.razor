@@ -17,7 +17,7 @@
         <div class="container">
             <hr />
             <p class="text-muted text-end">
-                Version: @typeof(Program).Assembly.GetName().Version - 
+                Version: @Version -
                 Powered by @System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription
             </p>
         </div>
@@ -29,3 +29,7 @@
     <a href="." class="reload">Reload</a>
     <span class="dismiss">🗙</span>
 </div>
+
+@code {
+    private string Version = typeof(Program).Assembly.GetName().Version?.ToString(3) ?? "";
+}

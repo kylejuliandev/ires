@@ -49,6 +49,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - run: |
+          TAG=${{ env.TAG }}
+          echo "VERSION=${TAG#v}" >> $GITHUB_ENV
+
       - name: Build and push ${{ matrix.service }}
         uses: docker/build-push-action@263435318d21b8e681c14492fe198d362a7d2c83 # v6
         with:
@@ -56,6 +60,8 @@ jobs:
           file: ${{ matrix.dockerfile }}
           push: true
           platforms: linux/amd64,linux/arm64
+          build-args: |
+            VERSION=${{ env.VERSION }}
           tags: |
             ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ matrix.image_name }}:${{ env.TAG }}
             ${{ env.REGISTRY }}/${{ env.OWNER }}/${{ matrix.image_name }}:latest
