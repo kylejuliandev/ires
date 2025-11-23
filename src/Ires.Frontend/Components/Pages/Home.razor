@@ -1,6 +1,7 @@
 ﻿@page "/"
 @rendermode InteractiveServer
 @inject IresDbContext Context
+@inject ProtectedLocalStorage LocalStorage
 
 <PageTitle>Home</PageTitle>
 
@@ -48,13 +49,26 @@
 
     private int days = 14;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await LoadDataAsync();
+        if (firstRender)
+        {
+            var cachedDays = await LocalStorage.GetAsync<int>("birthday_days_duration");
+            if (cachedDays.Success)
+            {
+                days = cachedDays.Value;
+            }
+
+            await LoadDataAsync();
+
+            StateHasChanged();
+        }
     }
 
     private async Task OnDropdownChanged()
     {
+        await LocalStorage.SetAsync("birthday_days_duration", days);
+
         await LoadDataAsync();
 
         StateHasChanged();
