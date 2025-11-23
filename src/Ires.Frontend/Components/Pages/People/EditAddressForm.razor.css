@@ -1,0 +1,22 @@
+﻿::deep tr {
+    height: 2em;
+}
+
+::deep tr:has(> td:empty) {
+    display: none;
+}
+
+.title-footer {
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+    font-size: .875em;
+    color: #6c757d;
+}
+
+.show {
+    display: block;
+}
+
+.hide {
+    display: none;
+}

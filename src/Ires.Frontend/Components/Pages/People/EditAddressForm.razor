@@ -1,0 +1,108 @@
+﻿@using Ires.Frontend.Components.Pages.People.Models
+@inject IresDbContext Context
+
+<h4 class="pt-3">Addresses</h4>
+<p class="title-footer">Information about their addresses.</p>
+<hr />
+
+@if (filteredAddresses.Any())
+{
+    <QuickGrid Items="@filteredAddresses" Pagination="@pagination" Class="table table-striped table-hover align-middle" @ref="quickGridRef">
+        <PropertyColumn Property="@(p => p.Street)" Title="Street" />
+        <PropertyColumn Property="@(p => p.State)" Title="State" />
+        <PropertyColumn Property="@(p => p.City)" Title="City" />
+        <PropertyColumn Property="@(p => p.PostalCode)" Title="Postal Code" />
+        <PropertyColumn Property="@(p => p.Country)" Title="Country" />
+    </QuickGrid>
+}
+
+<div class="row justify-content-center my-5">
+    <div class="col-auto">
+        <a class="btn btn-success px-5" @onclick="OpenDialog">Add address</a>
+    </div>
+</div>
+
+<div class="modal @_dialogCss" tabindex="-1" aria-hidden="true">
+    <EditForm EditContext="createAddressEditContext" OnValidSubmit="@HandleValidSubmit" FormName="address_entry_form">
+        <DataAnnotationsValidator />
+
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">Add address</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" @onclick="this.CloseDialog"></button>
+                </div>
+                <div class="modal-body">
+                    <AddAddress Model="createAddressModel" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="this.CloseDialog">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </EditForm>
+</div>
+
+@code {
+    [Parameter]
+    public required Guid PersonId { get; set; }
+
+    [Parameter]
+    public required CreatePersonModel Model { get; set; }
+
+    private EditContext? createAddressEditContext;
+
+    [SupplyParameterFromForm(FormName = "address_entry_form")]
+    private CreateAddressModel? createAddressModel { get; set; }
+
+    private QuickGrid<Address>? quickGridRef;
+    private PaginationState pagination = new PaginationState() { ItemsPerPage = 5 };
+
+    private IQueryable<Address> filteredAddresses => Context.Addresses.Where(a => a.People.Any(p => p.Id == PersonId));
+
+    private bool _dialogOpen;
+    private string _dialogCss => _dialogOpen ? "show" : "hide";
+
+    protected override void OnInitialized()
+    {
+        createAddressModel ??= new CreateAddressModel();
+        createAddressEditContext = new EditContext(createAddressModel);
+        createAddressEditContext.SetFieldCssClassProvider(new CustomFieldClassProvider());
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        var address = new Address
+        {
+            Type = AddressType.Unspecified,
+            Street = createAddressModel.Street,
+            City = createAddressModel.City,
+            State = createAddressModel.State,
+            Country = createAddressModel.Country,
+            PostalCode = createAddressModel.PostalCode
+        };
+
+        var person = await Context.People.FindAsync(PersonId);
+
+        address.People.Add(person);
+
+        Context.Addresses.Add(address);
+
+        await Context.SaveChangesAsync();
+
+        await CloseDialog();
+    }
+
+    private Task OpenDialog()
+    {
+        _dialogOpen = true;
+        return Task.CompletedTask;
+    }
+
+    private Task CloseDialog()
+    {
+        _dialogOpen = false;
+        return Task.CompletedTask;
+    }
+}

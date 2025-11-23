@@ -1,60 +1,59 @@
 ﻿@using Ires.Frontend.Components.Pages.People.Models
-@rendermode InteractiveServer
 
-<div class="container">
-    <div class="row">
-        <div class="row mb-3">
-            <div class="col">
-                <label for="givenname" class="form-label">First name</label>
-                <div class="input-group has-validation">
-                    <InputText id="givenname" class="form-control" @bind-Value="Model!.GivenName" />
-                    <ValidationMessage For="() => Model!.GivenName" class="invalid-feedback" />
-                </div>
-            </div>
+<h4 class="pt-3">Details</h4>
+<p class="title-footer">Information about the person.</p>
+<hr />
 
-            <div class="col">
-                <label for="lastname" class="form-label">Last name</label>
-                <div class="input-group has-validation">
-                    <InputText id="lastname" class="form-control" @bind-Value="Model!.FamilyName" />
-                    <ValidationMessage For="() => Model!.FamilyName" class="invalid-feedback" />
-                </div>
-            </div>
+<div class="row">
+    <div class="col">
+        <label for="givenname" class="form-label">First name</label>
+        <div class="input-group has-validation">
+            <InputText id="givenname" class="form-control" @bind-Value="Model!.GivenName" />
+            <ValidationMessage For="() => Model!.GivenName" class="invalid-feedback" />
         </div>
+    </div>
 
-        <div class="row mb-3">
-            <div class="col">
-                <label for="nickname" class="form-label">Nickname</label>
-                <div class="input-group has-validation">
-                    <InputText id="nickname" class="form-control" @bind-Value="Model!.Nickname" />
-                    <ValidationMessage For="() => Model!.Nickname" class="invalid-feedback" />
-                </div>
-            </div>
+    <div class="col">
+        <label for="lastname" class="form-label">Last name</label>
+        <div class="input-group has-validation">
+            <InputText id="lastname" class="form-control" @bind-Value="Model!.FamilyName" />
+            <ValidationMessage For="() => Model!.FamilyName" class="invalid-feedback" />
         </div>
+    </div>
+</div>
 
-        <div class="row mb-3">
-            <div class="col">
-                <label for="gender" class="form-label">Gender</label>
-                <div class="input-group has-validation">
-                    <InputSelect id="gender" class="form-control" @bind-Value="Model!.Gender">
-                        <option value=""></option>
-                        <option value="@CreatePersonModelGender.Male">Male</option>
-                        <option value="@CreatePersonModelGender.Female">Female</option>
-                        <option value="@CreatePersonModelGender.NonBinary">NonBinary</option>
-                        <option value="@CreatePersonModelGender.Other">Other</option>
-                    </InputSelect>
-                    <ValidationMessage For="() => Model!.Gender" class="invalid-feedback" />
-                </div>
-            </div>
+<div class="row mb-3">
+    <div class="col">
+        <label for="nickname" class="form-label">Nickname</label>
+        <div class="input-group has-validation">
+            <InputText id="nickname" class="form-control" @bind-Value="Model!.Nickname" />
+            <ValidationMessage For="() => Model!.Nickname" class="invalid-feedback" />
         </div>
+    </div>
+</div>
 
-        <div class="row">
-            <div class="col">
-                <label for="dateofbirth" class="form-label">Date of Birth</label>
-                <div class="input-group has-validation">
-                    <InputDate id="dateofbirth" class="form-control" @bind-Value="@Model.DateOfBirth" />
-                    <ValidationMessage For="@(() => Model.DateOfBirth)" class="invalid-feedback" />
-                </div>
-            </div>
+<div class="row mb-3">
+    <div class="col">
+        <label for="gender" class="form-label">Gender</label>
+        <div class="input-group has-validation">
+            <InputSelect id="gender" class="form-control" @bind-Value="Model!.Gender">
+                <option value=""></option>
+                <option value="@CreatePersonModelGender.Male">Male</option>
+                <option value="@CreatePersonModelGender.Female">Female</option>
+                <option value="@CreatePersonModelGender.NonBinary">NonBinary</option>
+                <option value="@CreatePersonModelGender.Other">Other</option>
+            </InputSelect>
+            <ValidationMessage For="() => Model!.Gender" class="invalid-feedback" />
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <label for="dateofbirth" class="form-label">Date of Birth</label>
+        <div class="input-group has-validation">
+            <InputDate id="dateofbirth" class="form-control" @bind-Value="@Model.DateOfBirth" />
+            <ValidationMessage For="@(() => Model.DateOfBirth)" class="invalid-feedback" />
         </div>
     </div>
 </div>

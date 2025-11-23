@@ -1,0 +1,44 @@
+﻿@using Ires.Frontend.Components.Pages.People.Models
+
+<div>
+    <label for="street" class="form-label">Street</label>
+    <div class="input-group has-validation">
+        <InputText id="street" class="form-control" @bind-Value="Model!.Street" />
+        <ValidationMessage For="() => Model!.Street" class="invalid-feedback" />
+    </div>
+</div>
+<div class="mt-3">
+    <label for="city" class="form-label">City</label>
+    <div class="input-group has-validation">
+        <InputText id="city" class="form-control" @bind-Value="Model!.City" />
+        <ValidationMessage For="() => Model!.City" class="invalid-feedback" />
+    </div>
+</div>
+<div class="mt-3">
+    <label for="state" class="form-label">State</label>
+    <div class="input-group has-validation">
+        <InputText id="state" class="form-control" @bind-Value="Model!.State" />
+        <ValidationMessage For="() => Model!.State" class="invalid-feedback" />
+    </div>
+</div>
+<div class="mt-3">
+    <label for="country" class="form-label">Country</label>
+    <div class="input-group has-validation">
+        <InputSelect id="country" class="form-control" TValue="string" @bind-Value="Model.Country">
+            <option value=""></option>
+            <option value="United Kingdom">United Kingdom</option>
+        </InputSelect>
+    </div>
+</div>
+<div class="mt-3">
+    <label for="postalcode" class="form-label">Postal code</label>
+    <div class="input-group has-validation">
+        <InputText id="postalcode" class="form-control" @bind-Value="Model!.PostalCode" />
+        <ValidationMessage For="() => Model!.PostalCode" class="invalid-feedback" />
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public required CreateAddressModel Model { get; set; }
+}
