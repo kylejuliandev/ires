@@ -1,0 +1,31 @@
+﻿@inject IresDbContext Context
+@inject IJSRuntime JSRuntime
+
+<div class="col-sm-3 mb-3">
+    <div class="card">
+        <div class="card-body">
+            <h6 class="card-title pb-3">@Person.GivenName @Person.FamilyName</h6>
+            <p class="person-detail-line">@Person.Gender</p>
+            <p class="person-detail-line">@Person.DateOfBirth</p>
+            <div class="d-flex justify-content-end">
+                <a class="btn btn-link card-link" href="@($"people/{Person.Id}/edit")">Edit</a>
+                <button class="btn btn-link card-link" type="button" @onclick="() => DeleteAddressAsync(Person)">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public required Person Person { get; set; }
+
+    private async Task DeleteAddressAsync(Person person)
+    {
+        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", $"Are you sure you want to delete {person.GivenName} {person.FamilyName}?");
+        if (confirmed)
+        {
+            Context.People.Remove(person);
+            await Context.SaveChangesAsync();
+        }
+    }
+}
