@@ -10,8 +10,6 @@ public class Person
 
     public string? Nickname { get; set; }
 
-    public required Gender Gender { get; set; }
-
     public required DateOnly DateOfBirth { get; set; }
 
     public ICollection<PersonNote> Notes { get; set; } = [];

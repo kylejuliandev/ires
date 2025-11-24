@@ -15,9 +15,6 @@ public class CreatePersonModel
     [MaxLength(50, ErrorMessage = "The maximum length of a nickname is 50 characters.")]
     public string Nickname { get; set; }
 
-    [Required(ErrorMessage = "You must specify a gender.")]
-    public CreatePersonModelGender? Gender { get; set; }
-
     [Required(ErrorMessage = "You must specify a date of birth.")]
     public DateOnly? DateOfBirth { get; set; }
 }

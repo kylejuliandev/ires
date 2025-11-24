@@ -25,7 +25,6 @@ public class IresDbContext : DbContext
             e.Property(p => p.GivenName).IsRequired().HasMaxLength(50);
             e.Property(p => p.FamilyName).IsRequired().HasMaxLength(100);
             e.Property(p => p.Nickname).HasMaxLength(50);
-            e.Property(p => p.Gender).IsRequired().HasDefaultValue(Gender.NotSpecified);
             e.Property(p => p.DateOfBirth).IsRequired().HasDefaultValue(DateOnly.MinValue);
         });
 
