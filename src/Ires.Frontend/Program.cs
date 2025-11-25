@@ -24,6 +24,14 @@ builder.Services.AddQuickGridEntityFrameworkAdapter();
 // Migrations
 builder.Services.AddHostedService<Worker>();
 
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    string[] supportedCultures = ["en-GB"];
+    options.SetDefaultCulture(supportedCultures[0])
+        .AddSupportedCultures(supportedCultures)
+        .AddSupportedUICultures(supportedCultures);
+});
+
 var app = builder.Build();
 
 app.MapDefaultEndpoints();

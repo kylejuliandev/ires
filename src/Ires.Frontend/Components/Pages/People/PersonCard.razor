@@ -5,7 +5,7 @@
     <div class="card">
         <div class="card-body">
             <h6 class="card-title pb-3">@Person.GivenName @Person.FamilyName</h6>
-            <p class="person-detail-line">@Person.DateOfBirth</p>
+            <p class="person-detail-line">@Person.DateOfBirth.ToLongDateString()</p>
             <div class="d-flex justify-content-end">
                 <a class="btn btn-link card-link" href="@($"people/{Person.Id}/edit")">Edit</a>
                 <button class="btn btn-link card-link" type="button" @onclick="() => DeleteAddressAsync(Person)">Delete</button>
