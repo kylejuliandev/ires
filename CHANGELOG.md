@@ -1,3 +1,9 @@
+## [1.2.1](https://github.com/kylejuliandev/ires/compare/v1.2.0...v1.2.1) (2025-11-26)
+
+### Bug Fixes
+
+* Address issue with data protection keys not being persisted ([ca73c27](https://github.com/kylejuliandev/ires/commit/ca73c27d8d6c0175906b1a200664e18bb84b9528))
+
 ## [1.2.0](https://github.com/kylejuliandev/ires/compare/v1.1.0...v1.2.0) (2025-11-26)
 
 ### Features
