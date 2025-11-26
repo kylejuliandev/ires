@@ -2,6 +2,7 @@ using Ires.Data;
 using Ires.Frontend;
 using Ires.Frontend.Components;
 using Ires.Frontend.Services;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,6 +39,9 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.Configure<BasicAuthenticationOptions>(builder.Configuration.GetSection("Auth"));
 builder.Services.AddScoped<BasicAuthenticationService>();
+
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(builder.Configuration["Auth:DataProtectionKeysLocation"]));
 
 // Migrations
 builder.Services.AddHostedService<Worker>();
