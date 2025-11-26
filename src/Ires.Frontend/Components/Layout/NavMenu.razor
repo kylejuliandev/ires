@@ -1,12 +1,18 @@
-﻿<ul class="nav nav-pills">
-    <li class="nav-item">
-        <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-            <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span>Birthdays
-        </NavLink>
-    </li>
-    <li class="nav-item">
-        <NavLink class="nav-link" href="people" Match="NavLinkMatch.All">
-            <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span>Manage
-        </NavLink>
-    </li>
-</ul>
+﻿<div class="navbar">
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">Birthdays</NavLink>
+        </li>
+        <li class="nav-item">
+            <NavLink class="nav-link" href="people" Match="NavLinkMatch.All">Manage</NavLink>
+        </li>
+    </ul>
+    <AuthorizeView>
+        <Authorized>
+            <div class="d-flex">
+                <p class="mx-3">Hello, @context.User.Identity.Name!</p>
+                <NavLink class="nav-link text-secondary" href="signout" Match="NavLinkMatch.All">Sign out</NavLink>
+            </div>
+        </Authorized>
+    </AuthorizeView>
+</div>

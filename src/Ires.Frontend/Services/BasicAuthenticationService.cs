@@ -61,6 +61,16 @@ public class BasicAuthenticationService
         // return true to satisfy the compiler.
         return true; 
     }
+
+    public async Task SignOutAsync()
+    {
+        var httpContext = _httpContextAccessor.HttpContext ?? throw new InvalidOperationException("HttpContext is not available.");
+
+        await httpContext.SignOutAsync("cookie", new AuthenticationProperties()
+        {
+            RedirectUri = "/"
+        });
+    }
 }
 
 public record User
