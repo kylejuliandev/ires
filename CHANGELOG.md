@@ -1,3 +1,12 @@
+## [1.2.0](https://github.com/kylejuliandev/ires/compare/v1.1.0...v1.2.0) (2025-11-26)
+
+### Features
+
+* Add ability to signout ([edcaafa](https://github.com/kylejuliandev/ires/commit/edcaafac24bf7c62bb427608a7d3601272ace5b7))
+* Add initial sign in page ([42f8ed4](https://github.com/kylejuliandev/ires/commit/42f8ed43b8d8709c7cb1e489e2fdf5f366bf840c))
+* Secure signin page and authentication process ([74543c0](https://github.com/kylejuliandev/ires/commit/74543c077361e45810ecc268b22f7b4f2291f71d))
+* Set default culture to en-GB ([f803a79](https://github.com/kylejuliandev/ires/commit/f803a7921e5a846da81697a96fbe5ddbbaa7a56e))
+
 ## [1.1.0](https://github.com/kylejuliandev/ires/compare/v1.0.3...v1.1.0) (2025-11-24)
 
 ### Features
