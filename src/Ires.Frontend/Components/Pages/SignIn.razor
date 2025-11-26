@@ -1,0 +1,66 @@
+﻿@page "/signin"
+@layout BlankLayout 
+@attribute [AllowAnonymous]
+@inject IHttpContextAccessor HttpContextAccessor
+@using Ires.Frontend.Components.Pages.Models
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Components.Authorization
+@using System.Security.Claims
+
+<div class="vh-100 d-flex">
+    <div class="form-signin w-100 m-auto">
+        <EditForm EditContext="editContext" FormName="signin_form" OnValidSubmit="OnSubmitAsync">
+            <h1 class="h3 mb-3 fw-normal">Please Sign in</h1>
+            <DataAnnotationsValidator />
+
+            <label for="email" class="form-label">Email address</label>
+            <div class="input-group has-validation">
+                <InputText id="email" class="form-control" type="email" placeholder="name@example.com" @bind-Value="model.Username" />
+                <ValidationMessage For="() => model!.Username" class="invalid-feedback" />
+            </div>
+
+            <label for="password" class="form-label mt-3">Password</label>
+            <div class="input-group has-validation">
+                <InputText id="password" class="form-control" type="password" @bind-Value="model.Password" />
+                <ValidationMessage For="() => model!.Password" class="invalid-feedback" />
+            </div>
+
+            
+            <div class="form-check text-start my-3">
+                <label for="rememberme" class="form-check-label">Remember me</label>
+                <InputCheckbox id="rememberme" class="form-check-input" @bind-Value="model.RememberMe" />
+            </div>
+
+            <button class="btn btn-primary w-100 my-2" type="submit">Submit</button>
+        </EditForm>
+    </div>
+</div>
+
+
+
+@code {
+    private EditContext? editContext;
+
+    [SupplyParameterFromForm(FormName = "signin_form")]
+    private SignInModel? model { get; set; }
+
+    protected override void OnInitialized()
+    {
+        model ??= new SignInModel();
+        editContext = new EditContext(model);
+        editContext.SetFieldCssClassProvider(new CustomFieldClassProvider());
+    }
+
+    public async Task OnSubmitAsync()
+    {
+        var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, model.Username),
+                new Claim(ClaimTypes.Role, "Admin")
+            };
+        var claimsIdentity = new ClaimsIdentity(claims, "cookie");
+
+        var httpContext = HttpContextAccessor.HttpContext;
+        await httpContext.SignInAsync("cookie", new ClaimsPrincipal(claimsIdentity));
+    }
+}

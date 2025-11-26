@@ -11,6 +11,16 @@ var dbLocation = builder.Configuration["DB_LOCATION"]
 builder.AddServiceDefaults();
 
 // Add services to the container.
+
+builder.Services.AddAuthentication("cookie")
+    .AddCookie("cookie", options =>
+    {
+        options.Cookie.Name = "ires_auth_cookie";
+        options.LoginPath = "/signin";
+    });
+builder.Services.AddAuthorization();
+builder.Services.AddCascadingAuthenticationState();
+
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
@@ -20,6 +30,8 @@ builder.Services.AddDbContext<IresDbContext>(
     db => db.UseSqlite($"Data Source={dbLocation}"));
 
 builder.Services.AddQuickGridEntityFrameworkAdapter();
+
+builder.Services.AddHttpContextAccessor();
 
 // Migrations
 builder.Services.AddHostedService<Worker>();
@@ -46,10 +58,10 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-
 app.UseAntiforgery();
 
 app.MapStaticAssets();
+
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
