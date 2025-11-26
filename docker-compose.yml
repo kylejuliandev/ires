@@ -5,7 +5,7 @@ services:
       - "18888:18888"
       - "4317:18889"
   frontend:
-    image: ghcr.io/kylejuliandev/ires:v1.1.0@sha256:53aa851475f9e1a75cde39f4160b11103098a83978d222bb725d0f9780820937
+    image: ghcr.io/kylejuliandev/ires:v1.2.2@sha256:ba22116775cb14066a2c0f6d8434f913b039a5aa8a415f2b5a1ed90f4e8eed83
     environment:
       OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
       OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
@@ -13,6 +13,7 @@ services:
       ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
       HTTP_PORTS: 8080
       DB_LOCATION: "/data/ires.db"
+      Auth__DataProtectionKeysLocation: "/data/keys/"
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://aspire-dashboard:18889"
       OTEL_EXPORTER_OTLP_PROTOCOL: "grpc"
       OTEL_SERVICE_NAME: "frontend"
