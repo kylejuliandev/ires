@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Ires.Frontend\Ires.Frontend.csproj" />
+    <ProjectReference Include="..\Ires.Helper\Ires.Helper.csproj" />
   </ItemGroup>
 
 </Project>
