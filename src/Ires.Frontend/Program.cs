@@ -1,6 +1,7 @@
 using Ires.Data;
 using Ires.Frontend;
 using Ires.Frontend.Components;
+using Ires.Frontend.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,8 +16,10 @@ builder.AddServiceDefaults();
 builder.Services.AddAuthentication("cookie")
     .AddCookie("cookie", options =>
     {
-        options.Cookie.Name = "ires_auth_cookie";
         options.LoginPath = "/signin";
+        options.Cookie.Name = "ires_auth_cookie";
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        options.Cookie.SameSite = SameSiteMode.Strict;
     });
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
@@ -32,6 +35,9 @@ builder.Services.AddDbContext<IresDbContext>(
 builder.Services.AddQuickGridEntityFrameworkAdapter();
 
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.Configure<BasicAuthenticationOptions>(builder.Configuration.GetSection("Auth"));
+builder.Services.AddScoped<BasicAuthenticationService>();
 
 // Migrations
 builder.Services.AddHostedService<Worker>();
