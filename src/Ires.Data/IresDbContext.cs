@@ -12,6 +12,8 @@ public class IresDbContext : DbContext
 
     public DbSet<ContactDetail> ContactDetails { get; set; }
 
+    public DbSet<User> Users { get; set; }
+
     public IresDbContext(DbContextOptions<IresDbContext> dbContextOptions)
         : base(dbContextOptions)
     {
@@ -68,6 +70,17 @@ public class IresDbContext : DbContext
                 .WithMany(p => p.Contacts)
                 .HasForeignKey(c => c.PersonId)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        modelBuilder.Entity<User>(e =>
+        {
+            e.HasKey(u => u.Id);
+
+            e.Property(u => u.Username).IsRequired().HasMaxLength(50);
+            e.HasIndex(u => u.Username, "IX_Username_Unique")
+                .IsUnique();
+
+            e.Property(u => u.Password).IsRequired().HasMaxLength(100);
         });
     }
 }

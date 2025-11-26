@@ -1,42 +1,34 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Ires.Data;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace Ires.Frontend.Services;
 
-public class BasicAuthenticationOptions
-{
-    /// <summary>
-    /// Gets a collection of username and hashed base64 password pairs.
-    /// </summary>
-    public Dictionary<string, string> Users { get; set; } = [];
-}
-
 public class BasicAuthenticationService
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly BasicAuthenticationOptions _options;
+    private readonly IresDbContext _dbContext;
 
-    public BasicAuthenticationService(IHttpContextAccessor httpContextAccessor, IOptions<BasicAuthenticationOptions> options)
+    public BasicAuthenticationService(IHttpContextAccessor httpContextAccessor, IresDbContext dbContext)
     {
         _httpContextAccessor = httpContextAccessor;
-        _options = options.Value;
+        _dbContext = dbContext;
     }
 
     public async Task<bool> AuthenticateAsync(string username, string password, bool rememberMe)
     {
         var httpContext = _httpContextAccessor.HttpContext ?? throw new InvalidOperationException("HttpContext is not available.");
 
-        var userExists = _options.Users.Keys.Any(key => key == username);
-        if (!userExists)
+        var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
+        if (user is null)
         {
             return false;
         }
 
         var passwordHasher = new PasswordHasher<User>();
-        var user = new User() { Username = username };
-        var result = passwordHasher.VerifyHashedPassword(user, _options.Users[username], password);
+        var result = passwordHasher.VerifyHashedPassword(user, user.Password, password);
 
         if (result == PasswordVerificationResult.Failed)
         {
@@ -71,9 +63,4 @@ public class BasicAuthenticationService
             RedirectUri = "/"
         });
     }
-}
-
-public record User
-{
-    public required string Username { get; init; }
 }

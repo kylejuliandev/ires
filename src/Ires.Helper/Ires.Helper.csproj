@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Ires.Data\Ires.Data.csproj" />
     <ProjectReference Include="..\Ires.ServiceDefaults\Ires.ServiceDefaults.csproj" />
   </ItemGroup>
 

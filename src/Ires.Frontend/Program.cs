@@ -37,7 +37,6 @@ builder.Services.AddQuickGridEntityFrameworkAdapter();
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.Configure<BasicAuthenticationOptions>(builder.Configuration.GetSection("Auth"));
 builder.Services.AddScoped<BasicAuthenticationService>();
 
 builder.Services.AddDataProtection()
