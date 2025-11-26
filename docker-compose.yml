@@ -5,7 +5,7 @@ services:
       - "18888:18888"
       - "4317:18889"
   frontend:
-    image: ghcr.io/kylejuliandev/ires:v1.1.0@sha256:53aa851475f9e1a75cde39f4160b11103098a83978d222bb725d0f9780820937
+    image: ghcr.io/kylejuliandev/ires:v1.2.1@sha256:4f9c79c5653e7cf902ac74bcc1a05b7986e182391437a1b3db38c24556db7b11
     environment:
       OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
       OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
