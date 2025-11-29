@@ -1,6 +1,7 @@
 using Ires.Data;
 using Ires.Frontend;
 using Ires.Frontend.Components;
+using Ires.Frontend.Options;
 using Ires.Frontend.Services;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
@@ -44,6 +45,12 @@ builder.Services.AddDataProtection()
 
 // Migrations
 builder.Services.AddHostedService<Worker>();
+
+builder.Services.Configure<SignUpOptions>(options =>
+{
+    var permitSignUps = builder.Configuration["PERMIT_SIGNUP"];
+    options.PermitSignUps = permitSignUps is not null && permitSignUps.Equals("true", StringComparison.OrdinalIgnoreCase);
+});
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {

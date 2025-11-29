@@ -2,6 +2,7 @@
 @layout BlankLayout
 @inject BasicAuthenticationService AuthService
 @inject NavigationManager NavManager
+@inject IOptions<SignUpOptions> SignUpOptions
 @attribute [AllowAnonymous]
 
 <div class="vh-100 d-flex">
@@ -33,10 +34,19 @@
                 <p class="text-danger">@loginResultMessage</p>
             }
 
-            <ul class="list-group list-group-horizontal my-2">
-                <li class="list-group-item flex-fill"><a class="btn btn-primary w-100" href="@signUpUrl">Sign up</a></li>
-                <li class="list-group-item flex-fill"><button class="btn btn-success w-100" type="submit">Submit</button></li>
-            </ul>
+            <div class="my-2">
+                @if (SignUpOptions.Value.PermitSignUps)
+                {
+                    <ul class="list-group list-group-horizontal">
+                        <li class="list-group-item flex-fill"><a class="btn btn-primary w-100" href="@signUpUrl">Sign up</a></li>
+                        <li class="list-group-item flex-fill"><button class="btn btn-success w-100" type="submit">Submit</button></li>
+                    </ul>
+                }
+                else
+                {
+                    <button class="btn btn-success w-100" type="submit">Submit</button>
+                }
+            </div>
             
         </EditForm>
     </div>
