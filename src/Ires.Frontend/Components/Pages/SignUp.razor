@@ -1,13 +1,13 @@
-﻿@page "/signin"
+﻿@page "/signup"
 @layout BlankLayout
 @inject BasicAuthenticationService AuthService
 @inject NavigationManager NavManager
 @attribute [AllowAnonymous]
 
 <div class="vh-100 d-flex">
-    <div class="form-signin w-100 m-auto">
-        <EditForm EditContext="editContext" FormName="signin_form" OnValidSubmit="OnSubmitAsync">
-            <h1 class="h3 mb-3 fw-normal">Please Sign in</h1>
+    <div class="form-signup w-100 m-auto">
+        <EditForm EditContext="editContext" FormName="signup_form" OnValidSubmit="OnSubmitAsync">
+            <h1 class="h3 mb-3 fw-normal">Sign up</h1>
             <DataAnnotationsValidator />
 
             <label for="email" class="form-label">Username</label>
@@ -22,22 +22,13 @@
                 <ValidationMessage For="() => model!.Password" class="invalid-feedback" />
             </div>
 
-            
-            <div class="form-check text-start my-3">
-                <label for="rememberme" class="form-check-label">Remember me</label>
-                <InputCheckbox id="rememberme" class="form-check-input" @bind-Value="model.RememberMe" />
-            </div>
-
             @if (loginResultMessage is not null)
             {
                 <p class="text-danger">@loginResultMessage</p>
             }
 
-            <ul class="list-group list-group-horizontal my-2">
-                <li class="list-group-item flex-fill"><a class="btn btn-primary w-100" href="@signUpUrl">Sign up</a></li>
-                <li class="list-group-item flex-fill"><button class="btn btn-success w-100" type="submit">Submit</button></li>
-            </ul>
-            
+            <button class="btn btn-success w-100 my-5" type="submit">Submit</button>
+
         </EditForm>
     </div>
 </div>
@@ -45,36 +36,35 @@
 @code {
     private EditContext? editContext;
 
-    [SupplyParameterFromForm(FormName = "signin_form")]
-    private SignInModel? model { get; set; }
+    [SupplyParameterFromForm(FormName = "signup_form")]
+    private SignUpModel? model { get; set; }
 
     private string? loginResultMessage;
 
-    private string signUpUrl = "/signup";
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "returnUrl")]
+    public string? ReturnUrl { get; set; }
 
     protected override void OnInitialized()
     {
-        model ??= new SignInModel();
+        model ??= new SignUpModel();
         editContext = new EditContext(model);
         editContext.SetFieldCssClassProvider(new CustomFieldClassProvider());
-
-        var uri = NavManager.ToAbsoluteUri(NavManager.Uri);
-        var query = Microsoft.AspNetCore.WebUtilities.QueryHelpers.ParseQuery(uri.Query);
-        if (query.TryGetValue("returnUrl", out var rv) && !string.IsNullOrEmpty(rv))
-        {
-            signUpUrl = $"/signup?returnUrl={Uri.EscapeDataString(rv)}";
-        }
     }
 
     public async Task OnSubmitAsync()
     {
-        var success = await AuthService.AuthenticateAsync(model.Username, model.Password, model.RememberMe);
+        var success = await AuthService.RegisterAsync(model.Username, model.Password);
 
         if (!success)
         {
             loginResultMessage = "Invalid username or password!";
             model.Username = string.Empty;
             model.Password = string.Empty;
+        }
+        else
+        {
+            NavManager.NavigateTo(string.IsNullOrWhiteSpace(ReturnUrl) ? "/" : ReturnUrl!, true);
         }
     }
 }
