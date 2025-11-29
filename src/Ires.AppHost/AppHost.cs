@@ -8,7 +8,4 @@ var sqliteFilePath = Path.Combine(temp, "ires.db");
 builder.AddProject<Projects.Ires_Frontend>("frontend")
     .WithEnvironment("DB_LOCATION", sqliteFilePath);
 
-builder.AddProject<Projects.Ires_Helper>("ires-helper")
-    .WithEnvironment("DB_LOCATION", sqliteFilePath);
-
 builder.Build().Run();

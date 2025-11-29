@@ -6,6 +6,5 @@
   <Project Path="Ires.AppHost/Ires.AppHost.csproj" />
   <Project Path="Ires.Data/Ires.Data.csproj" />
   <Project Path="Ires.Frontend/Ires.Frontend.csproj" />
-  <Project Path="Ires.Helper/Ires.Helper.csproj" />
   <Project Path="Ires.ServiceDefaults/Ires.ServiceDefaults.csproj" />
 </Solution>
