@@ -1,3 +1,17 @@
+## [2.0.0](https://github.com/kylejuliandev/ires/compare/v1.2.2...v2.0.0) (2025-11-29)
+
+### ⚠ BREAKING CHANGES
+
+* Change DataProtectionKeysLocation to DATA_PROTECTION_KEYS_DIRECTORY
+* Ensure records are created with a CreatedBy field
+
+### Features
+
+* Add permit signup configuration ([97adf7c](https://github.com/kylejuliandev/ires/commit/97adf7cb417ebea7ccd71ad94a8b18e9bd6bda1c))
+* Change DataProtectionKeysLocation to DATA_PROTECTION_KEYS_DIRECTORY ([7a76e9b](https://github.com/kylejuliandev/ires/commit/7a76e9b9b802c6dcc4bae4dabb66e7b738f58240))
+* Ensure records are created with a CreatedBy field ([d17ff4b](https://github.com/kylejuliandev/ires/commit/d17ff4bb2ead62f575ac84b4b3840c9b0fd9a855))
+* Permit users to register ([11a7cbc](https://github.com/kylejuliandev/ires/commit/11a7cbcd3eac3241d0720f85c4a26f69f576f287))
+
 ## [1.2.2](https://github.com/kylejuliandev/ires/compare/v1.2.1...v1.2.2) (2025-11-26)
 
 ## [1.2.1](https://github.com/kylejuliandev/ires/compare/v1.2.0...v1.2.1) (2025-11-26)
