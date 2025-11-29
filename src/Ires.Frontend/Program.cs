@@ -41,7 +41,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<BasicAuthenticationService>();
 
 builder.Services.AddDataProtection()
-    .PersistKeysToFileSystem(new DirectoryInfo(builder.Configuration["Auth:DataProtectionKeysLocation"]));
+    .PersistKeysToFileSystem(new DirectoryInfo(builder.Configuration["DATA_PROTECTION_KEYS_DIRECTORY"]));
 
 // Migrations
 builder.Services.AddHostedService<Worker>();
