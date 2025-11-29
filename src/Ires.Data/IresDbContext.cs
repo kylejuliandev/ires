@@ -81,6 +81,12 @@ public class IresDbContext : DbContext
                 .IsUnique();
 
             e.Property(u => u.Password).IsRequired().HasMaxLength(100);
+
+            e.HasMany(u => u.People)
+                .WithOne(p => p.CreatedBy);
+
+            e.HasMany(u => u.Addresses)
+                .WithOne(p => p.CreatedBy);
         });
     }
 }

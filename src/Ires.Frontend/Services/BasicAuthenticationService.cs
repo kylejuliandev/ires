@@ -37,6 +37,7 @@ public class BasicAuthenticationService
 
         var claims = new List<Claim>
         {
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Name, username),
             new(ClaimTypes.Role, "Admin")
         };

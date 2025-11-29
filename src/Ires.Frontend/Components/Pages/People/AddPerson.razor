@@ -1,7 +1,5 @@
 ﻿@page "/people/add"
 @rendermode InteractiveServer
-@using Ires.Frontend.Components.Pages.People.Models
-@using System.Linq.Expressions
 @inject IresDbContext DbContext
 @inject NavigationManager NavManager
 
@@ -31,6 +29,9 @@
     [SupplyParameterFromForm(FormName = "person_entry_form")]
     private CreatePersonModel? model { get; set; }
 
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationState { get; set; }
+
     protected override void OnInitialized()
     {
         var faker = new Bogus.Faker<CreatePersonModel>()
@@ -46,12 +47,21 @@
 
     private async Task HandleValidSubmit()
     {
+        if (authenticationState is null)
+        {
+            return;
+        }
+
+        var authState = await authenticationState;
+        var userIdClaim = authState.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+
         var person = new Person()
         {
             GivenName = model.GivenName,
             FamilyName = model.FamilyName,
             Nickname = model.Nickname,
-            DateOfBirth = model.DateOfBirth is null ? DateOnly.MinValue : model.DateOfBirth.Value
+            DateOfBirth = model.DateOfBirth is null ? DateOnly.MinValue : model.DateOfBirth.Value,
+            CreatedById = Guid.Parse(userIdClaim.Value)
         };
 
         DbContext.People.Add(person);

@@ -19,4 +19,8 @@ public class Address
     public ICollection<Person> People { get; set; } = [];
 
     public ICollection<PersonAddresses> PeopleAddresses { get; set; } = [];
+
+    public Guid CreatedById { get; set; }
+
+    public User CreatedBy { get; set; }
 }

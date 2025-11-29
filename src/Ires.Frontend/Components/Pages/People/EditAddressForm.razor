@@ -59,9 +59,12 @@
     [SupplyParameterFromForm(FormName = "address_entry_form")]
     private CreateAddressModel? createAddressModel { get; set; }
 
-    private IQueryable<Address> filteredAddresses => Context.Addresses.Where(a => a.People.Any(p => p.Id == PersonId));
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationState { get; set; }
 
-    protected override void OnInitialized()
+    private IQueryable<Address> filteredAddresses { get; set; } = Enumerable.Empty<Address>().AsQueryable();
+
+    protected override async Task OnInitializedAsync()
     {
         var faker = new Bogus.Faker<CreateAddressModel>()
             .RuleFor(f => f.Street, f => f.Address.StreetAddress())
@@ -71,6 +74,17 @@
             .RuleFor(f => f.PostalCode, f => f.Address.ZipCode())
             .Generate();
 
+        if (authenticationState is not null)
+        {
+            var authState = await authenticationState;
+            var userIdClaim = authState.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+            var userId = Guid.Parse(userIdClaim.Value);
+
+            filteredAddresses = Context.Addresses
+                .Where(a => a.CreatedById == userId)
+                .Where(a => a.People.Any(p => p.Id == PersonId));
+        }
+
         createAddressModel = faker;
         createAddressEditContext = new EditContext(createAddressModel);
         createAddressEditContext.SetFieldCssClassProvider(new CustomFieldClassProvider());
@@ -78,6 +92,15 @@
 
     private async Task HandleValidSubmit()
     {
+        if (authenticationState is null)
+        {
+            return;
+        }
+
+        var authState = await authenticationState;
+        var userIdClaim = authState.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+        var userId = Guid.Parse(userIdClaim.Value);
+
         var address = new Address
         {
             Type = createAddressModel.AddressType.GetAddressType(),
@@ -85,7 +108,8 @@
             City = createAddressModel.City,
             State = createAddressModel.State,
             Country = createAddressModel.Country,
-            PostalCode = createAddressModel.PostalCode
+            PostalCode = createAddressModel.PostalCode,
+            CreatedById = userId
         };
 
         var person = await Context.People.FindAsync(PersonId);

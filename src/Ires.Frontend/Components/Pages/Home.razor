@@ -49,6 +49,9 @@
 
     private int days = 14;
 
+    [CascadingParameter]
+    private Task<AuthenticationState>? authenticationState { get; set; }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -79,7 +82,18 @@
         var from = today.DayOfYear;
         var to = today.AddDays(days).DayOfYear;
 
-        var people = await Context.People.ToListAsync();
+        if (authenticationState is null)
+        {
+            return;
+        }
+
+        var authState = await authenticationState;
+        var userIdClaim = authState.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier);
+        var userId = Guid.Parse(userIdClaim.Value);
+
+        var people = await Context.People
+            .Where(p => p.CreatedById == userId)
+            .ToListAsync();
 
         upcomingBirthdays = people
             .Select(p => new BirthdayPerson
