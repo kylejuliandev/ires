@@ -1,6 +1,6 @@
 services:
   aspire-dashboard:
-    image: mcr.microsoft.com/dotnet/aspire-dashboard:latest@sha256:0255bf5f3596352b79335430e0d83e7d1d0b8c959d35090abd4a59b69d7d2975
+    image: mcr.microsoft.com/dotnet/aspire-dashboard:latest@sha256:f6929c30f9b96f25b9cabb88dbb6746dfbb00e1d581527165949a0ef556c6eb4
     ports:
       - "18888:18888"
       - "4317:18889"
